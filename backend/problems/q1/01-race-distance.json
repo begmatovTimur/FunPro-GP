@@ -1,0 +1,68 @@
+{
+  "id": "q1-race-distance",
+  "order": 1,
+  "title": "Race Distance",
+  "difficulty": "Easy",
+  "statement": "By the sporting regulations, a Grand Prix is the **fewest whole laps** whose total distance is **at least 305 km** (305000 metres).\n\nGiven the length of one lap of a circuit in metres, print how many laps the race will have.\n\n(In real life Monaco gets an exception. Not here!)",
+  "input_format": "One integer `L`, the lap length in metres.",
+  "output_format": "One integer, the number of laps.",
+  "constraints": [
+    "1000 ≤ L ≤ 8000"
+  ],
+  "examples": [
+    {
+      "input": "5412\n",
+      "explanation": "Bahrain: 56 laps cover only 303.072 km, so the race needs 57 laps (308.484 km).",
+      "output": "57\n"
+    },
+    {
+      "input": "6100\n",
+      "explanation": "50 × 6100 = 305000 exactly, so 50 laps are enough.",
+      "output": "50\n"
+    }
+  ],
+  "tests": [
+    {
+      "input": "5412\n",
+      "output": "57\n"
+    },
+    {
+      "input": "6100\n",
+      "output": "50\n"
+    },
+    {
+      "input": "3337\n",
+      "output": "92\n"
+    },
+    {
+      "input": "7004\n",
+      "output": "44\n"
+    },
+    {
+      "input": "1000\n",
+      "output": "305\n"
+    },
+    {
+      "input": "8000\n",
+      "output": "39\n"
+    },
+    {
+      "input": "5000\n",
+      "output": "61\n"
+    },
+    {
+      "input": "4309\n",
+      "output": "71\n"
+    },
+    {
+      "input": "5891\n",
+      "output": "52\n"
+    },
+    {
+      "input": "1001\n",
+      "output": "305\n"
+    }
+  ],
+  "starter_code": "L = int(input())\n\n# your code here\n\nprint(laps)\n",
+  "time_limit": 2
+}

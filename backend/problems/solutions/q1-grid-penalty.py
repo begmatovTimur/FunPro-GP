@@ -1,0 +1,8 @@
+n = int(input())
+grid = input().split()
+code, k = input().split()
+k = int(k)
+i = grid.index(code)
+grid.pop(i)
+grid.insert(min(i + k, n - 1), code)
+print(" ".join(grid))

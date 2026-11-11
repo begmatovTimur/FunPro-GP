@@ -1,0 +1,73 @@
+{
+  "id": "q3-tyre-strategy",
+  "order": 1,
+  "title": "Tyre Strategy",
+  "difficulty": "Hard",
+  "statement": "You are the race strategist. The race has `L` laps and there are `C` tyre compounds. Compound `i` has base time `b`, degradation `d` and a maximum stint length `m`: the **k-th lap** of a stint on that compound takes `b + d × (k − 1)` ms, and a set can do **at most `m` laps**.\n\nYou may pit **any number of times**. Every pit stop costs `P` ms and puts on a fresh set of any compound (the same compound again is allowed).\n\nThe rules say a driver must use **at least two different compounds** during the race (if only one compound exists, this rule is ignored).\n\nPrint the minimum possible total race time. The input always allows at least one legal strategy.",
+  "input_format": "The first line contains `L` and `P`.\nThe second line contains `C`.\nEach of the next `C` lines contains a compound name and three integers `b d m`.",
+  "output_format": "One integer, the minimum race time in milliseconds.",
+  "constraints": [
+    "1 ≤ L ≤ 100",
+    "1 ≤ C ≤ 3",
+    "1 ≤ P ≤ 10^6",
+    "1 ≤ b ≤ 200000",
+    "0 ≤ d ≤ 10000",
+    "1 ≤ m ≤ L"
+  ],
+  "examples": [
+    {
+      "input": "10 20000\n2\nSOFT 89000 800 10\nHARD 90000 200 10\n",
+      "explanation": "Best: 3 laps on SOFT (89000 + 89800 + 90600), pit (20000), then 7 laps on HARD (90000, 90200, ... 91200) = 923600.",
+      "output": "923600\n"
+    },
+    {
+      "input": "6 50000\n2\nSOFT 88000 3000 3\nMEDIUM 89000 1000 6\n",
+      "output": "591000\n"
+    }
+  ],
+  "tests": [
+    {
+      "input": "10 20000\n2\nSOFT 89000 800 10\nHARD 90000 200 10\n",
+      "output": "923600\n"
+    },
+    {
+      "input": "5 1000\n1\nSOFT 80000 0 5\n",
+      "output": "400000\n"
+    },
+    {
+      "input": "6 50000\n2\nSOFT 88000 3000 3\nMEDIUM 89000 1000 6\n",
+      "output": "591000\n"
+    },
+    {
+      "input": "20 1\n2\nSOFT 89000 5000 20\nHARD 95000 0 20\n",
+      "output": "1786019\n"
+    },
+    {
+      "input": "57 21000\n3\nSOFT 92000 400 20\nMEDIUM 92600 180 35\nHARD 93200 90 50\n",
+      "output": "5402070\n"
+    },
+    {
+      "input": "78 19000\n3\nSOFT 73500 350 25\nMEDIUM 74000 150 45\nHARD 74600 70 78\n",
+      "output": "5926620\n"
+    },
+    {
+      "input": "100 22000\n3\nSOFT 80000 600 15\nMEDIUM 80800 250 30\nHARD 81500 100 45\n",
+      "output": "8338500\n"
+    },
+    {
+      "input": "100 300000\n3\nSOFT 80000 600 60\nMEDIUM 80800 250 60\nHARD 81500 100 60\n",
+      "output": "8794000\n"
+    },
+    {
+      "input": "100 5000\n3\nSOFT 80000 2000 10\nMEDIUM 80500 900 20\nHARD 81000 400 30\n",
+      "output": "8276200\n"
+    },
+    {
+      "input": "44 20500\n3\nSOFT 105000 300 18\nMEDIUM 105600 160 30\nHARD 106200 60 44\n",
+      "output": "4725460\n"
+    }
+  ],
+  "starter_code": "L, P = map(int, input().split())\nC = int(input())\ncompounds = []\nfor _ in range(C):\n    name, b, d, m = input().split()\n    compounds.append((int(b), int(d), int(m)))\n\n# your code here\n",
+  "notes": "Hint: think about the best time to finish the first `i` laps with a given set of compounds used so far.",
+  "time_limit": 4
+}

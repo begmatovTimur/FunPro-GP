@@ -1,0 +1,70 @@
+{
+  "id": "q1-grid-penalty",
+  "order": 6,
+  "title": "Grid Penalty",
+  "difficulty": "Easy",
+  "statement": "After qualifying, one driver receives a **k-place grid penalty**: they drop back `k` positions and every car they pass on the way moves up one place. A driver can never drop below the last place on the grid.\n\nPrint the final starting grid.",
+  "input_format": "The first line contains `n`, the number of cars.\nThe second line contains `n` driver codes in qualifying order.\nThe third line contains the penalised driver's code and `k`.",
+  "output_format": "The `n` driver codes of the final grid, separated by spaces.",
+  "constraints": [
+    "2 ≤ n ≤ 30",
+    "0 ≤ k ≤ 30",
+    "All codes are different"
+  ],
+  "examples": [
+    {
+      "input": "5\nVER NOR LEC HAM PIA\nNOR 2\n",
+      "explanation": "NOR drops from P2 to P4; LEC and HAM move up.",
+      "output": "VER LEC HAM NOR PIA\n"
+    },
+    {
+      "input": "5\nVER NOR LEC HAM PIA\nLEC 10\n",
+      "explanation": "LEC can drop no further than P5.",
+      "output": "VER NOR HAM PIA LEC\n"
+    }
+  ],
+  "tests": [
+    {
+      "input": "5\nVER NOR LEC HAM PIA\nNOR 2\n",
+      "output": "VER LEC HAM NOR PIA\n"
+    },
+    {
+      "input": "5\nVER NOR LEC HAM PIA\nPIA 3\n",
+      "output": "VER NOR LEC HAM PIA\n"
+    },
+    {
+      "input": "5\nVER NOR LEC HAM PIA\nVER 10\n",
+      "output": "NOR LEC HAM PIA VER\n"
+    },
+    {
+      "input": "2\nHAM RUS\nHAM 1\n",
+      "output": "RUS HAM\n"
+    },
+    {
+      "input": "3\nALO STR GAS\nSTR 0\n",
+      "output": "ALO STR GAS\n"
+    },
+    {
+      "input": "20\nSAI HAD OCO NOR HUL ALB ALO LIN HAM RIC LAW SAR BEA PIA ZHO GAS MAG PER VET RAI\nSAI 5\n",
+      "output": "HAD OCO NOR HUL ALB SAI ALO LIN HAM RIC LAW SAR BEA PIA ZHO GAS MAG PER VET RAI\n"
+    },
+    {
+      "input": "20\nMAG LEC PIA SAI HAM TSU PER RAI RUS ALB DOO ALO HUL BOT LIN COL BEA VET GAS VER\nVET 5\n",
+      "output": "MAG LEC PIA SAI HAM TSU PER RAI RUS ALB DOO ALO HUL BOT LIN COL BEA GAS VER VET\n"
+    },
+    {
+      "input": "20\nPER LIN COL SAR RUS VER BEA ZHO PIA GAS RAI VET RIC BOT BOR ANT LEC SAI HAM ALO\nGAS 10\n",
+      "output": "PER LIN COL SAR RUS VER BEA ZHO PIA RAI VET RIC BOT BOR ANT LEC SAI HAM ALO GAS\n"
+    },
+    {
+      "input": "30\nZHO VER SAR PER LIN COL BOT RAI STR NOR ALB MAG HAM BEA TSU VET PIA BOR RUS RIC ALO SAI LAW ANT GAS OCO HUL LEC DOO HAD\nHAM 3\n",
+      "output": "ZHO VER SAR PER LIN COL BOT RAI STR NOR ALB MAG BEA TSU VET HAM PIA BOR RUS RIC ALO SAI LAW ANT GAS OCO HUL LEC DOO HAD\n"
+    },
+    {
+      "input": "10\nLIN RUS ALB BOR STR MAG HUL ANT BOT LAW\nSTR 20\n",
+      "output": "LIN RUS ALB BOR MAG HUL ANT BOT LAW STR\n"
+    }
+  ],
+  "starter_code": "n = int(input())\ngrid = input().split()\ncode, k = input().split()\nk = int(k)\n\n# your code here\n",
+  "time_limit": 2
+}

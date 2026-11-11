@@ -1,0 +1,72 @@
+{
+  "id": "q2-one-stop",
+  "order": 2,
+  "title": "One-Stop Strategy",
+  "difficulty": "Medium",
+  "statement": "Tyres get slower every lap. On a set of tyres, the **k-th lap** of the stint takes `B + D × (k − 1)` milliseconds.\n\nThe race has `L` laps. The team can either **not stop at all**, or make **exactly one** pit stop at the end of lap `p` (1 ≤ p ≤ L − 1), which costs `P` milliseconds and gives fresh tyres for lap `p + 1`.\n\nPrint the minimum total race time and the best stop lap. Print `0` as the lap if not stopping is best. If several options give the same minimum time, choose **no stop** if possible, otherwise the **smallest** `p`.",
+  "input_format": "One line with four integers `L B D P`.",
+  "output_format": "Two integers: the minimum race time and the stop lap.",
+  "constraints": [
+    "1 ≤ L ≤ 200000",
+    "1 ≤ B ≤ 200000",
+    "0 ≤ D ≤ 100000",
+    "1 ≤ P ≤ 10^9"
+  ],
+  "examples": [
+    {
+      "input": "10 90000 1000 20000\n",
+      "explanation": "No stop: 945000. Stop after lap 5: 460000 + 20000 + 460000 = 940000, which is the best.",
+      "output": "940000 5\n"
+    },
+    {
+      "input": "10 90000 500 20000\n",
+      "explanation": "The tyres degrade too slowly; stopping never pays off (no stop = 922500).",
+      "output": "922500 0\n"
+    }
+  ],
+  "tests": [
+    {
+      "input": "10 90000 1000 20000\n",
+      "output": "940000 5\n"
+    },
+    {
+      "input": "10 90000 500 20000\n",
+      "output": "922500 0\n"
+    },
+    {
+      "input": "1 90000 5000 1\n",
+      "output": "90000 0\n"
+    },
+    {
+      "input": "2 80000 100000 1\n",
+      "output": "160001 1\n"
+    },
+    {
+      "input": "2 80000 100000 100000\n",
+      "output": "260000 0\n"
+    },
+    {
+      "input": "57 92000 120 21000\n",
+      "output": "5359080 28\n"
+    },
+    {
+      "input": "78 74000 60 19000\n",
+      "output": "5879920 39\n"
+    },
+    {
+      "input": "1000 90000 7 22000\n",
+      "output": "91768500 500\n"
+    },
+    {
+      "input": "200000 90000 3 25000\n",
+      "output": "47999725000 100000\n"
+    },
+    {
+      "input": "199999 85000 1 1000000000\n",
+      "output": "27999715001 99999\n"
+    }
+  ],
+  "starter_code": "L, B, D, P = map(int, input().split())\n\n# your code here\n",
+  "notes": "Python integers never overflow, but watch the running time: L can be 200000.",
+  "time_limit": 2
+}

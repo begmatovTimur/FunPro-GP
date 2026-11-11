@@ -1,0 +1,67 @@
+{
+  "id": "q1-driver-code",
+  "order": 5,
+  "title": "Driver Code",
+  "difficulty": "Easy",
+  "statement": "On the timing tower every driver is shown by a three-letter code: the **first three letters of their last name**, in UPPERCASE. For example `Kimi Antonelli` → `ANT`.\n\nGiven a full name, print the code. The name may be written in any letter case and may contain extra spaces.",
+  "input_format": "One line with the full name: two or more words made of English letters.",
+  "output_format": "The three-letter code.",
+  "constraints": [
+    "The last name has at least 3 letters",
+    "The line is at most 100 characters long"
+  ],
+  "examples": [
+    {
+      "input": "Kimi Antonelli\n",
+      "output": "ANT\n"
+    },
+    {
+      "input": "  max   VERSTAPPEN \n",
+      "output": "VER\n"
+    }
+  ],
+  "tests": [
+    {
+      "input": "Kimi Antonelli\n",
+      "output": "ANT\n"
+    },
+    {
+      "input": "Lando Norris\n",
+      "output": "NOR\n"
+    },
+    {
+      "input": "  max   VERSTAPPEN \n",
+      "output": "VER\n"
+    },
+    {
+      "input": "lewis hamilton\n",
+      "output": "HAM\n"
+    },
+    {
+      "input": "Charles Marc Herve Perceval Leclerc\n",
+      "output": "LEC\n"
+    },
+    {
+      "input": "Oscar Piastri\n",
+      "output": "PIA\n"
+    },
+    {
+      "input": "Andrea Kimi ANTONELLI\n",
+      "output": "ANT\n"
+    },
+    {
+      "input": "a Bob\n",
+      "output": "BOB\n"
+    },
+    {
+      "input": "George   russell   \n",
+      "output": "RUS\n"
+    },
+    {
+      "input": "Fernando Alonso Diaz\n",
+      "output": "DIA\n"
+    }
+  ],
+  "starter_code": "name = input()\n\n# your code here\n",
+  "time_limit": 2
+}
