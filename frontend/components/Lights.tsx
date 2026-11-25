@@ -3,48 +3,52 @@
 import { useEffect, useRef, useState } from "react";
 
 /**
- * F1 start sequence: five red lights come on one per second, a random hold,
- * then all lights go out -> onLightsOut().
+ * F1 start gantry, synchronised to the server clock so every screen in the room
+ * lights up and goes out at the same moment. Race Control starts it; drivers only watch.
+ *
+ * lightsStart/lightsOut are server times (seconds). offset = server clock - local clock (ms).
+ * With lightsStart = null the gantry is dark and we wait for Race Control.
  */
 export default function Lights({
   title,
   subtitle,
-  onLightsOut,
-  onDone,
+  lightsStart,
+  lightsOut,
+  offset,
+  onGo,
 }: {
   title: string;
   subtitle: string;
-  onLightsOut: () => Promise<void>;
-  onDone: () => void;
+  lightsStart: number | null;
+  lightsOut: number | null;
+  offset: number;
+  onGo: () => void;
 }) {
-  const [phase, setPhase] = useState<"idle" | "sequence" | "out">("idle");
-  const [lit, setLit] = useState(0);
-  const [err, setErr] = useState("");
-  const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
+  const [now, setNow] = useState(() => Date.now() + offset);
+  const fired = useRef(false);
 
-  useEffect(() => () => timers.current.forEach(clearTimeout), []);
+  useEffect(() => {
+    const t = setInterval(() => setNow(Date.now() + offset), 50);
+    return () => clearInterval(t);
+  }, [offset]);
 
-  function start() {
-    setErr("");
-    setPhase("sequence");
-    setLit(0);
-    for (let i = 1; i <= 5; i++) timers.current.push(setTimeout(() => setLit(i), i * 1000));
-    const hold = 5000 + 700 + Math.random() * 1800; // random hold like the real thing
-    timers.current.push(
-      setTimeout(async () => {
-        try {
-          await onLightsOut();
-          setLit(0);
-          setPhase("out");
-          timers.current.push(setTimeout(onDone, 1300));
-        } catch (e) {
-          setErr((e as Error).message);
-          setPhase("idle");
-          setLit(0);
-        }
-      }, hold),
-    );
+  const t = now / 1000;
+  let lit = 0;
+  let out = false;
+  if (lightsStart !== null && lightsOut !== null) {
+    if (t >= lightsOut) out = true;
+    else if (t >= lightsStart) lit = Math.min(5, Math.floor(t - lightsStart) + 1);
   }
+
+  useEffect(() => {
+    if (!out || fired.current) return;
+    fired.current = true;
+    const id = setTimeout(onGo, 1400);
+    return () => clearTimeout(id);
+  }, [out, onGo]);
+
+  const waiting = lightsStart === null;
+  const countdown = lightsStart !== null && t < lightsStart;
 
   return (
     <div className="lights-stage">
@@ -61,13 +65,16 @@ export default function Lights({
           </div>
         ))}
       </div>
-      <div style={{ minHeight: 90, display: "grid", placeItems: "center" }}>
-        {phase === "idle" && (
-          <button className="btn btn-red btn-lg" onClick={start}>Start session</button>
+      <div style={{ minHeight: 90, display: "grid", placeItems: "center", textAlign: "center" }}>
+        {waiting && (
+          <div>
+            <div className="status-pill live" style={{ fontSize: 14, padding: "8px 14px" }}>Waiting for Race Control</div>
+            <p className="muted" style={{ marginTop: 14 }}>Stay on this screen. The lights will start for everyone at the same time.</p>
+          </div>
         )}
-        {phase === "sequence" && <div className="eyebrow" style={{ fontSize: 16 }}>Hold your nerve…</div>}
-        {phase === "out" && <div className="go-text">Lights out<br /><span style={{ color: "var(--red)" }}>and away we go!</span></div>}
-        {err && <div className="error-box" style={{ marginTop: 12 }}>{err}</div>}
+        {countdown && <div className="eyebrow" style={{ fontSize: 18, color: "#fff" }}>Race Control: start sequence engaged</div>}
+        {!waiting && !countdown && !out && <div className="eyebrow" style={{ fontSize: 16 }}>Hold your nerve…</div>}
+        {out && <div className="go-text">Lights out<br /><span style={{ color: "var(--red)" }}>and away we go!</span></div>}
       </div>
     </div>
   );

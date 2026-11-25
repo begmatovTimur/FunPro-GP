@@ -1,0 +1,71 @@
+{
+  "id": "q1-grid-penalty",
+  "order": 6,
+  "title": "Grid Penalty",
+  "difficulty": "Easy",
+  "statement": "Cars start the race in a line called the **grid**: first place at the front.\n\nOne driver broke a rule and gets a **k-place penalty**: they move `k` places back, and every driver they pass moves one place forward. A driver can never go further back than the last place.\n\nPrint the new grid.",
+  "input_format": "Line 1: the driver codes in grid order, separated by spaces.\nLine 2: the code of the penalised driver and `k`.",
+  "output_format": "The new grid on one line, codes separated by spaces.",
+  "constraints": [
+    "2 ≤ number of drivers ≤ 24",
+    "0 ≤ k ≤ 30",
+    "All codes are different"
+  ],
+  "examples": [
+    {
+      "input": "VER NOR LEC HAM PIA\nNOR 2\n",
+      "explanation": "NOR drops from 2nd to 4th. LEC and HAM each move up one place.",
+      "output": "VER LEC HAM NOR PIA\n"
+    },
+    {
+      "input": "VER NOR LEC HAM PIA\nLEC 10\n",
+      "explanation": "LEC can only drop to last place.",
+      "output": "VER NOR HAM PIA LEC\n"
+    }
+  ],
+  "tests": [
+    {
+      "input": "VER NOR LEC HAM PIA\nNOR 2\n",
+      "output": "VER LEC HAM NOR PIA\n"
+    },
+    {
+      "input": "VER NOR LEC HAM PIA\nLEC 10\n",
+      "output": "VER NOR HAM PIA LEC\n"
+    },
+    {
+      "input": "VER NOR LEC HAM PIA\nVER 4\n",
+      "output": "NOR LEC HAM PIA VER\n"
+    },
+    {
+      "input": "HAM RUS\nHAM 1\n",
+      "output": "RUS HAM\n"
+    },
+    {
+      "input": "ALO STR GAS\nSTR 0\n",
+      "output": "ALO STR GAS\n"
+    },
+    {
+      "input": "ALO STR GAS\nGAS 3\n",
+      "output": "ALO STR GAS\n"
+    },
+    {
+      "input": "LIN ALO RUS OCO STR HUL SAI PIA ALB VER COL GAS BEA ANT LAW PER DOO HAD TSU NOR\nLIN 5\n",
+      "output": "ALO RUS OCO STR HUL LIN SAI PIA ALB VER COL GAS BEA ANT LAW PER DOO HAD TSU NOR\n"
+    },
+    {
+      "input": "TSU BOT LIN BEA ALO ANT LEC STR COL DOO HUL HAD PIA PER RUS VER NOR OCO HAM GAS\nOCO 5\n",
+      "output": "TSU BOT LIN BEA ALO ANT LEC STR COL DOO HUL HAD PIA PER RUS VER NOR HAM GAS OCO\n"
+    },
+    {
+      "input": "SAI HAM LIN DOO BEA PER PIA NOR OCO ANT TSU ALO VER GAS ALB LAW LEC RUS BOT COL STR HUL BOR HAD\nANT 10\n",
+      "output": "SAI HAM LIN DOO BEA PER PIA NOR OCO TSU ALO VER GAS ALB LAW LEC RUS BOT COL ANT STR HUL BOR HAD\n"
+    },
+    {
+      "input": "RUS BEA ANT TSU ALO HAM STR DOO PER BOR\nALO 30\n",
+      "output": "RUS BEA ANT TSU HAM STR DOO PER BOR ALO\n"
+    }
+  ],
+  "starter_code": "grid = input().split()\ncode, k = input().split()\nk = int(k)\n\n# your code here\n",
+  "notes": "List methods from week 5: `index`, `pop` and `insert`.",
+  "time_limit": 2
+}

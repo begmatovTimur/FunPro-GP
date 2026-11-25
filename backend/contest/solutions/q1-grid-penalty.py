@@ -1,0 +1,7 @@
+grid = input().split()
+code, k = input().split()
+k = int(k)
+place = grid.index(code)
+grid.pop(place)
+grid.insert(min(place + k, len(grid)), code)
+print(*grid)

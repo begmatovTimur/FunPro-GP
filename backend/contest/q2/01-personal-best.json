@@ -1,0 +1,65 @@
+{
+  "id": "q2-personal-best",
+  "order": 1,
+  "title": "Personal Best",
+  "difficulty": "Medium",
+  "statement": "A driver's **personal best** is their fastest lap so far. You get all of one driver's lap times in milliseconds, in the order they were driven. After each lap, the screen shows:\n\n- `PB` if this lap is **faster** (smaller) than every earlier lap. The very first lap is always `PB`.\n- otherwise `+S.mmm`: how many seconds slower it was than the personal best **before** this lap, with three decimals.\n\nAt the end, print `BEST` and the fastest lap in the format `M:SS.mmm`.",
+  "input_format": "Line 1: `n`, the number of laps.\nThen `n` lines, each one lap time in milliseconds.",
+  "output_format": "`n` lines (`PB` or `+S.mmm`), then the line `BEST M:SS.mmm`.",
+  "constraints": [
+    "1 ≤ n ≤ 80",
+    "60000 ≤ lap time < 600000"
+  ],
+  "examples": [
+    {
+      "input": "4\n84500\n83900\n84150\n83900\n",
+      "explanation": "Lap 1 is the first: PB. Lap 2 is faster: PB. Lap 3 is 250 ms slower than 83900: +0.250. Lap 4 equals the best but is not faster: +0.000. The best lap 83900 ms is 1:23.900.",
+      "output": "PB\nPB\n+0.250\n+0.000\nBEST 1:23.900\n"
+    }
+  ],
+  "tests": [
+    {
+      "input": "4\n84500\n83900\n84150\n83900\n",
+      "output": "PB\nPB\n+0.250\n+0.000\nBEST 1:23.900\n"
+    },
+    {
+      "input": "1\n90000\n",
+      "output": "PB\nBEST 1:30.000\n"
+    },
+    {
+      "input": "3\n80000\n81000\n82000\n",
+      "output": "PB\n+1.000\n+2.000\nBEST 1:20.000\n"
+    },
+    {
+      "input": "3\n82000\n81000\n80000\n",
+      "output": "PB\nPB\nPB\nBEST 1:20.000\n"
+    },
+    {
+      "input": "5\n75000\n75000\n75000\n74999\n75001\n",
+      "output": "PB\n+0.000\n+0.000\nPB\n+0.002\nBEST 1:14.999\n"
+    },
+    {
+      "input": "2\n60000\n599999\n",
+      "output": "PB\n+539.999\nBEST 1:00.000\n"
+    },
+    {
+      "input": "10\n85825\n83025\n83394\n83302\n83573\n84280\n84250\n85588\n85460\n85859\n",
+      "output": "PB\nPB\n+0.369\n+0.277\n+0.548\n+1.255\n+1.225\n+2.563\n+2.435\n+2.834\nBEST 1:23.025\n"
+    },
+    {
+      "input": "25\n83132\n85046\n85460\n85663\n83517\n83173\n84735\n84340\n85315\n85944\n85444\n84425\n84221\n83656\n84426\n85312\n84750\n83807\n85698\n83578\n85535\n83192\n85128\n84737\n83840\n",
+      "output": "PB\n+1.914\n+2.328\n+2.531\n+0.385\n+0.041\n+1.603\n+1.208\n+2.183\n+2.812\n+2.312\n+1.293\n+1.089\n+0.524\n+1.294\n+2.180\n+1.618\n+0.675\n+2.566\n+0.446\n+2.403\n+0.060\n+1.996\n+1.605\n+0.708\nBEST 1:23.132\n"
+    },
+    {
+      "input": "57\n92262\n95047\n92221\n95029\n93231\n94922\n94813\n95969\n93141\n94508\n94275\n92939\n94219\n93628\n92919\n93714\n94597\n95187\n95365\n94914\n92615\n94319\n93024\n95859\n93100\n95784\n95864\n95440\n93812\n93806\n95790\n93661\n93664\n93602\n94035\n93994\n95199\n92090\n95865\n93817\n94983\n95102\n93323\n94017\n95608\n95146\n94707\n94206\n92574\n94220\n95461\n94437\n95911\n92536\n92675\n93742\n93685\n",
+      "output": "PB\n+2.785\nPB\n+2.808\n+1.010\n+2.701\n+2.592\n+3.748\n+0.920\n+2.287\n+2.054\n+0.718\n+1.998\n+1.407\n+0.698\n+1.493\n+2.376\n+2.966\n+3.144\n+2.693\n+0.394\n+2.098\n+0.803\n+3.638\n+0.879\n+3.563\n+3.643\n+3.219\n+1.591\n+1.585\n+3.569\n+1.440\n+1.443\n+1.381\n+1.814\n+1.773\n+2.978\nPB\n+3.775\n+1.727\n+2.893\n+3.012\n+1.233\n+1.927\n+3.518\n+3.056\n+2.617\n+2.116\n+0.484\n+2.130\n+3.371\n+2.347\n+3.821\n+0.446\n+0.585\n+1.652\n+1.595\nBEST 1:32.090\n"
+    },
+    {
+      "input": "80\n71154\n71349\n70937\n71412\n70790\n70503\n71370\n70993\n70078\n70691\n70389\n71327\n70293\n70279\n70350\n71459\n71374\n70542\n70204\n70366\n70293\n70584\n70005\n70164\n70734\n70024\n70812\n70005\n70595\n70818\n70931\n70842\n71492\n71494\n71208\n70132\n71121\n70306\n71448\n70761\n70822\n70014\n70129\n71451\n71181\n71100\n70525\n71152\n70102\n71207\n70171\n70411\n71298\n70337\n70028\n71330\n71247\n70250\n70403\n70974\n70228\n71180\n70056\n71310\n70614\n70813\n71250\n70442\n70538\n70801\n70340\n71145\n71308\n70323\n70196\n71401\n71218\n70412\n70411\n70811\n",
+      "output": "PB\n+0.195\nPB\n+0.475\nPB\nPB\n+0.867\n+0.490\nPB\n+0.613\n+0.311\n+1.249\n+0.215\n+0.201\n+0.272\n+1.381\n+1.296\n+0.464\n+0.126\n+0.288\n+0.215\n+0.506\nPB\n+0.159\n+0.729\n+0.019\n+0.807\n+0.000\n+0.590\n+0.813\n+0.926\n+0.837\n+1.487\n+1.489\n+1.203\n+0.127\n+1.116\n+0.301\n+1.443\n+0.756\n+0.817\n+0.009\n+0.124\n+1.446\n+1.176\n+1.095\n+0.520\n+1.147\n+0.097\n+1.202\n+0.166\n+0.406\n+1.293\n+0.332\n+0.023\n+1.325\n+1.242\n+0.245\n+0.398\n+0.969\n+0.223\n+1.175\n+0.051\n+1.305\n+0.609\n+0.808\n+1.245\n+0.437\n+0.533\n+0.796\n+0.335\n+1.140\n+1.303\n+0.318\n+0.191\n+1.396\n+1.213\n+0.407\n+0.406\n+0.806\nBEST 1:10.005\n"
+    }
+  ],
+  "starter_code": "n = int(input())\nfor i in range(n):\n    lap = int(input())\n    # your code here\n",
+  "notes": "Keep the best time in a variable and update it inside the loop. The gap in seconds is `(lap - best) / 1000`. Padding with zeros: `f\"{x:02d}\"` turns 5 into `05`, and `f\"{x:03d}\"` turns 7 into `007`.",
+  "time_limit": 2
+}

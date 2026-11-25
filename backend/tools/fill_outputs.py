@@ -1,8 +1,8 @@
 """Fill in expected outputs of a problem by running its reference solution.
 
 Usage (from the backend folder):
-    python tools/fill_outputs.py problems/q1/01-race-distance.json problems/solutions/q1-race-distance.py
-    python tools/fill_outputs.py --all            # every problem that has problems/solutions/<id>.py
+    python tools/fill_outputs.py contest/q1/01-lap-time.json contest/solutions/q1-lap-time.py
+    python tools/fill_outputs.py --all            # every problem that has contest/solutions/<id>.py
 
 Write only the "input" of each example/test in the JSON; this script adds "output".
 Existing outputs are overwritten, so re-run it whenever you change a solution or an input.
@@ -13,6 +13,8 @@ import sys
 from pathlib import Path
 
 BACKEND = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(BACKEND))
+from app.config import PROBLEMS_DIR  # noqa: E402
 
 
 def run(solution: Path, inp: str) -> str:
@@ -34,9 +36,9 @@ def fill(problem_path: Path, solution: Path) -> None:
 
 if __name__ == "__main__":
     if len(sys.argv) == 2 and sys.argv[1] == "--all":
-        for path in sorted((BACKEND / "problems").glob("q*/*.json")):
+        for path in sorted(PROBLEMS_DIR.glob("q*/*.json")):
             pid = json.loads(path.read_text(encoding="utf-8")).get("id", path.stem)
-            sol = BACKEND / "problems" / "solutions" / f"{pid}.py"
+            sol = PROBLEMS_DIR / "solutions" / f"{pid}.py"
             if sol.exists():
                 fill(path, sol)
             else:

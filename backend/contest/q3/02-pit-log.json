@@ -1,0 +1,65 @@
+{
+  "id": "q3-pit-log",
+  "order": 2,
+  "title": "Pit Lane Log",
+  "difficulty": "Hard",
+  "statement": "During the race, cars drive into the **pit lane** to change tyres and then drive out again. A sensor writes a log line every time a car goes `IN` or comes `OUT`, with the race time in seconds.\n\nProcess the lines in order:\n\n- `IN` for a car that is already in the pits → print `error T CODE already in pits` and ignore the line.\n- `OUT` for a car that is not in the pits → print `error T CODE not in pits` and ignore the line.\n- A correct `IN` … `OUT` pair is one **pit stop**; its duration is the OUT time minus the IN time.\n\nAfter the log, print a summary line `CODE stops total` for every car with at least one finished stop: the number of stops and the total seconds spent in the pits. Order: **smallest total first**; equal totals in alphabetical order.\n\nFinally, print `CODE still in pits` for every car that went IN and never came OUT, in alphabetical order.",
+  "input_format": "Line 1: `n`, the number of log lines.\nThen `n` lines: `T CODE EVENT` where `T` is an integer time, `CODE` a driver code and `EVENT` is `IN` or `OUT`. Times never go down.",
+  "output_format": "Error lines (in the order they happen), then summary lines, then still-in-pits lines.",
+  "constraints": [
+    "1 ≤ n ≤ 200",
+    "0 ≤ T ≤ 10000"
+  ],
+  "examples": [
+    {
+      "input": "6\n100 VER IN\n103 NOR OUT\n122 VER OUT\n130 NOR IN\n151 NOR OUT\n160 HAM IN\n",
+      "explanation": "NOR goes OUT at 103 without being IN: error. VER's stop lasts 22 s, NOR's lasts 21 s, so NOR comes first. HAM never comes out.",
+      "output": "error 103 NOR not in pits\nNOR 1 21\nVER 1 22\nHAM still in pits\n"
+    }
+  ],
+  "tests": [
+    {
+      "input": "6\n100 VER IN\n103 NOR OUT\n122 VER OUT\n130 NOR IN\n151 NOR OUT\n160 HAM IN\n",
+      "output": "error 103 NOR not in pits\nNOR 1 21\nVER 1 22\nHAM still in pits\n"
+    },
+    {
+      "input": "1\n50 ALO IN\n",
+      "output": "ALO still in pits\n"
+    },
+    {
+      "input": "1\n50 ALO OUT\n",
+      "output": "error 50 ALO not in pits\n"
+    },
+    {
+      "input": "4\n10 ALO IN\n12 ALO IN\n30 ALO OUT\n31 ALO OUT\n",
+      "output": "error 12 ALO already in pits\nerror 31 ALO not in pits\nALO 1 20\n"
+    },
+    {
+      "input": "6\n10 BBB IN\n10 AAA IN\n30 AAA OUT\n30 BBB OUT\n40 CCC IN\n50 CCC OUT\n",
+      "output": "CCC 1 10\nAAA 1 20\nBBB 1 20\n"
+    },
+    {
+      "input": "20\n424 GAS IN\n451 HAD IN\n481 HAD OUT\n516 GAS OUT\n534 GAS IN\n539 GAS OUT\n549 PER IN\n566 HAD IN\n602 GAS IN\n615 ALB IN\n616 ALB OUT\n653 ALB IN\n693 PER OUT\n698 HAD OUT\n734 PER IN\n738 PER OUT\n765 PER IN\n771 PER OUT\n789 HAD IN\n808 GAS OUT\n",
+      "output": "ALB 1 1\nPER 3 154\nHAD 2 162\nGAS 3 303\nALB still in pits\nHAD still in pits\n"
+    },
+    {
+      "input": "40\n613 HAM OUT\n617 PIA IN\n657 PIA OUT\n693 ANT IN\n720 STR IN\n746 ANT OUT\n769 HAM IN\n803 STR OUT\n839 HAM OUT\n873 STR IN\n903 PIA IN\n926 HAM IN\n947 ANT OUT\n959 PIA OUT\n964 LAW IN\n997 ANT OUT\n1009 HAM OUT\n1046 PIA IN\n1085 ALB OUT\n1118 PIA OUT\n1144 STR IN\n1175 PIA IN\n1215 HAM IN\n1248 ALB IN\n1276 LAW OUT\n1280 STR IN\n1293 LAW IN\n1324 HAM OUT\n1360 ALB OUT\n1376 STR IN\n1386 LAW OUT\n1399 STR OUT\n1430 LAW IN\n1447 ALB IN\n1460 STR IN\n1486 HAM IN\n1503 ANT IN\n1536 ANT OUT\n1554 ANT OUT\n1554 PIA IN\n",
+      "output": "error 613 HAM not in pits\nerror 947 ANT not in pits\nerror 997 ANT not in pits\nerror 1085 ALB not in pits\nerror 1144 STR already in pits\nerror 1280 STR already in pits\nerror 1376 STR already in pits\nerror 1554 ANT not in pits\nerror 1554 PIA already in pits\nANT 2 86\nALB 1 112\nPIA 3 168\nHAM 3 262\nLAW 2 405\nSTR 2 609\nALB still in pits\nHAM still in pits\nLAW still in pits\nPIA still in pits\nSTR still in pits\n"
+    },
+    {
+      "input": "80\n771 HUL IN\n774 HUL OUT\n801 BOT IN\n821 OCO IN\n857 LAW IN\n886 STR IN\n907 HAD IN\n926 HAM IN\n958 LIN OUT\n968 ANT IN\n996 ANT OUT\n1008 ANT IN\n1048 HUL IN\n1058 ANT OUT\n1086 LAW OUT\n1125 HUL OUT\n1135 HAM OUT\n1158 HUL IN\n1194 PIA OUT\n1210 LAW OUT\n1214 LAW IN\n1253 HUL OUT\n1255 BOT OUT\n1273 BOT OUT\n1291 LIN IN\n1301 PIA IN\n1307 LAW OUT\n1336 LIN OUT\n1357 OCO OUT\n1388 HAD OUT\n1390 HAD IN\n1420 PIA IN\n1460 LAW IN\n1480 LAW OUT\n1506 LAW IN\n1517 PIA OUT\n1517 LIN IN\n1544 HAM IN\n1578 HAD OUT\n1588 PIA IN\n1609 STR OUT\n1634 OCO IN\n1637 PIA OUT\n1648 OCO OUT\n1648 LAW OUT\n1652 PIA OUT\n1667 PIA IN\n1673 LIN OUT\n1686 STR IN\n1726 LAW IN\n1728 HUL IN\n1749 ANT IN\n1782 LAW OUT\n1819 BOT IN\n1841 HAM OUT\n1874 OCO IN\n1910 LAW IN\n1919 PIA OUT\n1954 HUL OUT\n1977 HAM IN\n1978 LAW OUT\n1983 HUL IN\n2020 OCO OUT\n2020 STR OUT\n2037 ANT OUT\n2076 HAM OUT\n2109 ANT IN\n2149 OCO IN\n2155 HAD IN\n2182 BOT OUT\n2216 HAD OUT\n2254 OCO IN\n2284 ANT OUT\n2303 HUL OUT\n2315 HAD IN\n2319 LIN IN\n2341 LIN IN\n2379 HUL OUT\n2405 HAD OUT\n2428 STR IN\n",
+      "output": "error 958 LIN not in pits\nerror 1194 PIA not in pits\nerror 1210 LAW not in pits\nerror 1273 BOT not in pits\nerror 1420 PIA already in pits\nerror 1652 PIA not in pits\nerror 2254 OCO already in pits\nerror 2341 LIN already in pits\nerror 2379 HUL not in pits\nLIN 2 201\nPIA 3 517\nANT 4 541\nHAM 3 605\nLAW 6 608\nOCO 3 696\nHUL 5 721\nBOT 2 817\nHAD 4 820\nSTR 2 1057\nLIN still in pits\nOCO still in pits\nSTR still in pits\n"
+    },
+    {
+      "input": "150\n696 ALB IN\n732 PER IN\n736 SAI IN\n742 ALB OUT\n745 NOR OUT\n749 GAS IN\n762 ANT IN\n795 ANT IN\n802 DOO IN\n802 HAD IN\n821 HAD OUT\n857 HAD IN\n872 ANT OUT\n872 RUS IN\n872 PER OUT\n893 NOR IN\n927 ALB IN\n940 HUL IN\n956 HAD OUT\n983 SAI OUT\n1022 STR IN\n1032 HAD IN\n1045 ALB IN\n1063 SAI OUT\n1073 HAD OUT\n1095 GAS OUT\n1109 GAS IN\n1127 GAS OUT\n1141 GAS OUT\n1168 PER IN\n1205 PER OUT\n1240 SAI IN\n1273 TSU IN\n1285 ANT IN\n1315 SAI OUT\n1348 HUL OUT\n1383 GAS IN\n1409 RUS OUT\n1437 GAS OUT\n1456 GAS IN\n1487 BOT IN\n1487 TSU OUT\n1494 BOT OUT\n1527 ALB OUT\n1563 HAD IN\n1567 TSU IN\n1569 ALB IN\n1596 SAI OUT\n1601 LIN IN\n1619 HUL OUT\n1647 LEC IN\n1674 LEC OUT\n1702 RUS IN\n1731 STR IN\n1754 LEC IN\n1792 LEC IN\n1824 HUL IN\n1844 SAI IN\n1883 HUL OUT\n1893 STR OUT\n1904 DOO OUT\n1925 ANT OUT\n1928 LEC OUT\n1963 TSU OUT\n1988 STR IN\n2005 LIN OUT\n2038 PER IN\n2038 TSU IN\n2058 LEC IN\n2061 NOR OUT\n2099 ANT IN\n2131 PER OUT\n2153 STR IN\n2154 HUL IN\n2159 HAD OUT\n2176 DOO IN\n2212 BOT IN\n2226 STR OUT\n2227 SAI OUT\n2262 TSU IN\n2282 HAD IN\n2305 ANT OUT\n2339 HAD OUT\n2375 NOR IN\n2391 SAI IN\n2424 SAI OUT\n2447 HUL IN\n2477 GAS IN\n2501 BOT OUT\n2515 LIN OUT\n2518 TSU OUT\n2533 ALB OUT\n2569 SAI IN\n2570 PER IN\n2576 HAD IN\n2586 GAS OUT\n2600 GAS IN\n2621 DOO OUT\n2648 HAD OUT\n2681 HAD OUT\n2711 SAI OUT\n2718 SAI IN\n2743 TSU IN\n2769 DOO IN\n2809 TSU OUT\n2828 NOR OUT\n2858 LEC OUT\n2860 NOR IN\n2882 HAD IN\n2907 NOR OUT\n2911 RUS OUT\n2911 STR IN\n2944 LEC IN\n2964 NOR IN\n2975 GAS IN\n2982 SAI OUT\n3016 HAD OUT\n3035 BOT IN\n3035 ANT IN\n3060 LEC OUT\n3089 STR OUT\n3100 ANT OUT\n3107 LIN IN\n3143 RUS OUT\n3166 TSU IN\n3194 PER IN\n3232 STR IN\n3266 ALB IN\n3306 DOO OUT\n3324 NOR IN\n3324 ALB OUT\n3340 ANT IN\n3373 GAS OUT\n3391 TSU OUT\n3423 LIN OUT\n3453 NOR OUT\n3481 HUL OUT\n3490 RUS IN\n3506 ALB IN\n3529 ALB OUT\n3560 LIN IN\n3590 HAD IN\n3598 LIN OUT\n3627 ALB OUT\n3638 LEC IN\n3640 STR OUT\n3660 ANT OUT\n3700 RUS OUT\n3722 ANT IN\n3748 RUS IN\n",
+      "output": "error 745 NOR not in pits\nerror 795 ANT already in pits\nerror 1045 ALB already in pits\nerror 1063 SAI not in pits\nerror 1141 GAS not in pits\nerror 1596 SAI not in pits\nerror 1619 HUL not in pits\nerror 1731 STR already in pits\nerror 1792 LEC already in pits\nerror 2153 STR already in pits\nerror 2262 TSU already in pits\nerror 2447 HUL already in pits\nerror 2477 GAS already in pits\nerror 2515 LIN not in pits\nerror 2681 HAD not in pits\nerror 2975 GAS already in pits\nerror 3143 RUS not in pits\nerror 3194 PER already in pits\nerror 3324 NOR already in pits\nerror 3627 ALB not in pits\nPER 3 270\nBOT 2 296\nLIN 3 758\nHAD 7 1018\nLEC 4 1117\nSAI 6 1144\nANT 5 1341\nTSU 5 1381\nALB 5 1691\nSTR 4 1695\nHUL 3 1794\nRUS 3 1956\nDOO 3 2084\nNOR 4 2157\nGAS 5 2321\nANT still in pits\nBOT still in pits\nHAD still in pits\nLEC still in pits\nPER still in pits\nRUS still in pits\n"
+    },
+    {
+      "input": "200\n585 VER IN\n591 HAD IN\n594 BOR IN\n600 COL IN\n628 HAM IN\n665 BOT IN\n683 OCO IN\n723 HAD OUT\n738 BOR OUT\n777 HUL IN\n781 BOT IN\n810 PIA IN\n840 RUS IN\n858 PER IN\n879 SAI IN\n883 HUL OUT\n888 VER OUT\n901 BOR IN\n926 COL OUT\n945 HAM OUT\n968 HAD IN\n980 SAI OUT\n983 ANT IN\n1020 BEA IN\n1057 HAD OUT\n1061 BOR OUT\n1085 BEA OUT\n1097 BOR IN\n1135 ALO IN\n1152 PIA OUT\n1162 ALO OUT\n1187 BEA IN\n1194 LAW IN\n1197 HUL IN\n1201 SAI OUT\n1202 LAW OUT\n1212 NOR IN\n1244 COL IN\n1272 RUS OUT\n1304 NOR OUT\n1314 RUS IN\n1315 LEC IN\n1331 HAM IN\n1361 GAS IN\n1388 HAM OUT\n1428 HAD IN\n1441 GAS OUT\n1456 VER IN\n1456 LEC OUT\n1482 RUS OUT\n1506 ALO IN\n1529 PIA OUT\n1553 HAD OUT\n1569 LEC IN\n1585 LIN IN\n1624 GAS IN\n1664 BOR OUT\n1692 HAD IN\n1730 LEC OUT\n1761 PER OUT\n1796 LIN OUT\n1808 BOR IN\n1828 BOR OUT\n1850 OCO OUT\n1855 GAS OUT\n1875 VER OUT\n1910 HAM IN\n1932 GAS IN\n1936 LEC IN\n1970 ALO OUT\n1972 PER IN\n1982 GAS OUT\n1985 LIN IN\n2003 ALO OUT\n2016 RUS IN\n2038 LIN OUT\n2048 VER IN\n2063 LIN IN\n2081 GAS IN\n2090 ANT IN\n2101 PIA IN\n2121 ANT OUT\n2140 LAW IN\n2141 BOT OUT\n2167 GAS OUT\n2199 ALO IN\n2214 HUL IN\n2227 PER OUT\n2250 VER OUT\n2275 PIA OUT\n2312 PIA IN\n2315 HAD OUT\n2351 COL OUT\n2366 PIA IN\n2396 LIN OUT\n2430 COL IN\n2456 LIN IN\n2463 LIN OUT\n2469 RUS IN\n2494 VER IN\n2497 OCO IN\n2503 SAI IN\n2532 LEC IN\n2562 ALO OUT\n2571 HAM OUT\n2610 RUS OUT\n2613 PIA OUT\n2619 ALO IN\n2652 ALO OUT\n2691 VER OUT\n2699 PER IN\n2705 HAD IN\n2745 SAI OUT\n2745 RUS IN\n2754 RUS OUT\n2781 BOR IN\n2821 HAM IN\n2841 BOR OUT\n2870 PIA OUT\n2872 HAD OUT\n2877 ALO IN\n2883 NOR OUT\n2915 HAD IN\n2953 PER OUT\n2959 ALO OUT\n2976 NOR IN\n2985 BEA IN\n2990 BOR IN\n3008 HAD IN\n3020 HAM OUT\n3052 COL IN\n3059 LIN IN\n3084 PER OUT\n3105 BEA OUT\n3118 LIN OUT\n3144 LIN OUT\n3170 BOR OUT\n3184 PIA IN\n3195 NOR OUT\n3211 SAI IN\n3243 BOR IN\n3269 BOT IN\n3300 HUL OUT\n3303 SAI OUT\n3332 SAI IN\n3346 ALO IN\n3350 HUL IN\n3350 PIA IN\n3379 LIN IN\n3402 ANT IN\n3429 HAD OUT\n3429 OCO IN\n3437 RUS IN\n3461 BOT OUT\n3500 LEC IN\n3527 BEA IN\n3529 SAI IN\n3558 OCO OUT\n3590 NOR IN\n3600 PER IN\n3604 LAW OUT\n3631 BOR OUT\n3668 LIN OUT\n3677 HAM IN\n3708 PER OUT\n3731 RUS OUT\n3732 PER OUT\n3739 SAI OUT\n3768 ANT OUT\n3784 BEA OUT\n3784 LEC OUT\n3804 LIN IN\n3843 LIN OUT\n3850 VER IN\n3873 PER IN\n3909 BEA OUT\n3934 BOT OUT\n3938 ALO IN\n3943 ALO OUT\n3956 HUL OUT\n3971 ANT IN\n3985 PIA OUT\n3995 HAD IN\n4007 LEC IN\n4032 BOT OUT\n4044 LIN IN\n4058 BOR IN\n4087 ALO OUT\n4097 NOR OUT\n4097 VER OUT\n4109 RUS IN\n4125 VER IN\n4162 BOR OUT\n4173 ANT IN\n4192 LAW IN\n4213 RUS OUT\n4234 LEC OUT\n4269 VER OUT\n4302 NOR OUT\n4342 HUL IN\n",
+      "output": "error 781 BOT already in pits\nerror 1201 SAI not in pits\nerror 1529 PIA not in pits\nerror 2003 ALO not in pits\nerror 2090 ANT already in pits\nerror 2214 HUL already in pits\nerror 2366 PIA already in pits\nerror 2469 RUS already in pits\nerror 2532 LEC already in pits\nerror 2870 PIA not in pits\nerror 2883 NOR not in pits\nerror 2985 BEA already in pits\nerror 3008 HAD already in pits\nerror 3052 COL already in pits\nerror 3084 PER not in pits\nerror 3144 LIN not in pits\nerror 3350 PIA already in pits\nerror 3429 OCO already in pits\nerror 3500 LEC already in pits\nerror 3529 SAI already in pits\nerror 3732 PER not in pits\nerror 3909 BEA not in pits\nerror 3934 BOT not in pits\nerror 3938 ALO already in pits\nerror 4032 BOT not in pits\nerror 4087 ALO not in pits\nerror 4173 ANT already in pits\nerror 4302 NOR not in pits\nGAS 4 447\nNOR 3 818\nSAI 4 842\nLIN 7 991\nHAM 4 1234\nCOL 2 1433\nLAW 2 1472\nANT 2 1504\nVER 6 1512\nPER 4 1520\nALO 6 1566\nRUS 6 1601\nPIA 4 1618\nBOR 8 1623\nHAD 6 1650\nBOT 2 1668\nOCO 2 2228\nBEA 3 2240\nLEC 4 2377\nHUL 3 2815\nANT still in pits\nCOL still in pits\nHAD still in pits\nHAM still in pits\nHUL still in pits\nLAW still in pits\nLIN still in pits\nPER still in pits\n"
+    }
+  ],
+  "starter_code": "n = int(input())\nfor i in range(n):\n    t, code, event = input().split()\n    t = int(t)\n    # your code here\n",
+  "notes": "Keep a dictionary of cars that are in the pits right now (code → IN time), and dictionaries for stops and totals.",
+  "time_limit": 2
+}

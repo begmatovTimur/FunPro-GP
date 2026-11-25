@@ -1,0 +1,69 @@
+{
+  "id": "q1-lap-time",
+  "order": 1,
+  "title": "Lap Time Display",
+  "difficulty": "Easy",
+  "statement": "The timing computer measures every lap in **milliseconds** (1 second = 1000 milliseconds). The TV screen shows it as `M:SS.mmm`: minutes, then a colon, then seconds as **two digits**, then a dot, then milliseconds as **three digits**.\n\nFor example, 83456 milliseconds is 1 minute, 23 seconds and 456 milliseconds, shown as `1:23.456`.\n\nConvert a time in milliseconds to the screen format.",
+  "input_format": "One integer `ms`: the lap time in milliseconds.",
+  "output_format": "The time as `M:SS.mmm`.",
+  "constraints": [
+    "0 ≤ ms < 3600000 (less than one hour)"
+  ],
+  "examples": [
+    {
+      "input": "83456\n",
+      "explanation": "83456 // 60000 = 1 minute. What is left is 23456 ms: 23 seconds and 456 milliseconds.",
+      "output": "1:23.456\n"
+    },
+    {
+      "input": "5007\n",
+      "explanation": "0 minutes, 5 seconds (shown as 05), 7 milliseconds (shown as 007).",
+      "output": "0:05.007\n"
+    }
+  ],
+  "tests": [
+    {
+      "input": "83456\n",
+      "output": "1:23.456\n"
+    },
+    {
+      "input": "5007\n",
+      "output": "0:05.007\n"
+    },
+    {
+      "input": "60000\n",
+      "output": "1:00.000\n"
+    },
+    {
+      "input": "0\n",
+      "output": "0:00.000\n"
+    },
+    {
+      "input": "59999\n",
+      "output": "0:59.999\n"
+    },
+    {
+      "input": "90010\n",
+      "output": "1:30.010\n"
+    },
+    {
+      "input": "600000\n",
+      "output": "10:00.000\n"
+    },
+    {
+      "input": "3599999\n",
+      "output": "59:59.999\n"
+    },
+    {
+      "input": "61001\n",
+      "output": "1:01.001\n"
+    },
+    {
+      "input": "100500\n",
+      "output": "1:40.500\n"
+    }
+  ],
+  "starter_code": "ms = int(input())\n\n# your code here\n",
+  "notes": "Padding with zeros: `f\"{x:02d}\"` turns 5 into `05`, and `f\"{x:03d}\"` turns 7 into `007`. Remember `//` and `%` from week 2.",
+  "time_limit": 2
+}

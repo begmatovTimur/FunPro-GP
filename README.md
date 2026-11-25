@@ -33,6 +33,8 @@ Open http://localhost:3000. Students in the lab open `http://<organiser-laptop-I
 The site automatically talks to the backend on port 8000 of the same machine.
 
 > Allow **ports 3000 and 8000** through Windows Firewall, and test from one lab PC before the event.
+> Using another address (e.g. Radmin VPN `26.x.x.x`)? It's already allowed in `frontend/next.config.ts`
+> (`allowedDevOrigins`); add yours there if it's different, and restart `npm run dev`.
 
 ## 2. Code execution: Judge0 vs. local runner
 
@@ -56,47 +58,76 @@ Free option: an **Ubuntu 22.04 VM in VirtualBox** with a *bridged* network adapt
 
 Python on Judge0 CE is language id **71 (Python 3.8)**, so avoid 3.10+ syntax like `match`. Change with `JUDGE0_PYTHON_ID`.
 
-## 3. Rules implemented
+## 3. Logins and Race Control
 
-- Each session has **one clock** for all its problems: Q1 25 min, Q2 27 min, Q3 32 min (edit `backend/app/config.py`).
-- The clock starts at **lights out** (5 red lights, random hold, lights out), separately for each driver.
-- Drivers can jump between problems freely. The next session unlocks only when the current one is over:
-  time runs out, all problems are solved, or the driver presses **Box box** (end early).
+- Everyone starts at `/login`. **Admin:** username `funprogp`, password `helloWorld`
+  (change with `$env:ADMIN_USERNAME` / `$env:ADMIN_PASSWORD` before starting the backend, especially if the repo is public).
+- Anyone else types their **full name** (spaces allowed) and a password. A new name gets a second step:
+  pick a unique **3-letter driver code** (suggestions like KIM / ANT) and a **team** from the logo dropdown.
+  Logging in again needs the same name and password. Team logos live in `frontend/public/teams/`.
+- The admin lands on **Race Control** (`/admin`) and never sees the coding page. From there:
+  - **Start the race** for Q1, then Q2, then Q3. Every driver's screen runs the same five red lights and
+    goes out at the same moment; the session clock starts at lights out.
+  - **+1 min / −1 min** and **End session now** (chequered flag for everyone).
+  - Live problem stats, live standings, **Remove** a driver (duplicates/test accounts), **Reset** after the dry run.
+- Drivers just wait on the Paddock: when Race Control starts a session they're taken to the lights automatically.
+
+## 4. Scoring and timing rules
+
+- One clock per session for everyone: Q1 25 min, Q2 27 min, Q3 32 min (edit `backend/app/config.py`).
 - **Points:** each problem has 10 hidden tests; every passed test is worth 1/10 of the problem
-  (Q1 10 pts, Q2 20 pts, Q3 30 pts per problem → 60 + 100 + 90 = 250). The best submission counts.
+  (Q1 10, Q2 20, Q3 30 pts per problem = 250). The best submission counts.
+- **Fastest-lap bonus:** the single fastest lap of each session earns **+2 (Q1), +5 (Q2), +7 (Q3)** = 264 max.
+  It moves live if someone beats it.
 - **Lap time** = time the driver had that problem open until it passed 10/10.
-- **Colours** (decided at the moment of solving, per session):
-  - 🟣 purple: faster than every lap in this session by anyone
-  - 🟢 green: faster than the driver's own previous laps in this session
-  - 🟡 yellow: slower than the driver's own best
+- **Colours are live** and separate for each session:
+  - 🟣 purple: the one fastest lap of the session, by anyone
+  - 🟢 green: the driver's personal best of the session (exactly one per driver)
+  - 🟡 yellow: the driver's other laps
   
-  To compare purple per problem instead of across the whole session, set `PURPLE_SCOPE=problem`.
-- **Standings:** points, then lower total lap time, then faster best lap.
+  If someone beats the purple lap, the old one turns green (or yellow) on every screen within ~3 seconds.
+- **Time:** for each session, from lights out to the submission that reached the driver's final score there;
+  the TIME column adds Q1 + Q2 + Q3 (e.g. `1:25:03`). Hover it to see each session.
+- **Standings:** total points (incl. fastest-lap bonus), and on equal points the **lower TIME** is ahead.
+  The fastest-lap holder of a session shows a purple badge with the lap time.
 
-## 4. Adding or editing problems
+## 5. The contest problems
 
-Problems are JSON files in `backend/problems/q1`, `q2`, `q3` (file order = problem order).
-Copy an existing one and change it. You only need to write the **inputs** of examples and tests;
-put a reference solution in `backend/problems/solutions/<id>.py` and generate the outputs:
+The problem set is in `backend/contest/` (`q1`, `q2`, `q3`, plus reference `solutions/`). It only uses what
+weeks 1–9 of Fundamentals of Programming covered, and every statement explains the racing idea, so no F1
+knowledge is needed:
+
+| Session | Problems | Python used |
+|---|---|---|
+| Q1 · 6 easy | Lap Time Display, Driver Code, Fuel Check, Podium, Season Points, Grid Penalty | `//` `%` `:02d`, slicing, `if/elif`, `sorted` + `index`, a `for` loop, `pop`/`insert` |
+| Q2 · 5 medium | Personal Best, Tyre Stint, DRS Train, Places Gained, Theoretical Best Lap | loops with a running best / streak, `while`, `enumerate`, small functions |
+| Q3 · 3 hard | Championship Table, Pit Lane Log, Race Classification | dictionaries, tuples, `sorted(key=lambda …)`, `divmod` |
+
+Targets: about 3–4 min per Q1 problem, 5–6 min per Q2 problem and 10 min per Q3 problem for a strong student.
+The old example set in `backend/problems/` is no longer used and can be deleted.
+
+To change a problem, edit its JSON (only the test **inputs** are needed), update its solution in
+`contest/solutions/<id>.py`, then regenerate the outputs and restart the backend:
 
 ```powershell
 cd backend
 python tools/fill_outputs.py --all
 ```
 
-Restart the backend after changing problems. Make the 10 tests cover edge cases and at least
-one large input, so slow solutions get partial points instead of full marks.
+## 6. Reset before the event
 
-## 5. Reset before the event
-
-Stop the backend and delete `backend/funprogp.db` (plus `-wal`/`-shm` files). Students' code drafts live
-in each browser's localStorage; a different driver on the same PC uses "Switch driver" on the Paddock page.
+Use **Reset results** (keeps accounts) or **Reset everything** on the Race Control page. Or stop the backend
+and delete `backend/funprogp.db` (plus `-wal`/`-shm`). A database from an older version is moved aside
+automatically as `funprogp.old-<time>.db`. On a shared PC, students use **Log out** in the top bar.
 
 ## Pages
 
 | URL | What |
 |---|---|
-| `/` | Registration, then the Paddock (session cards) |
-| `/race/1`, `/race/2`, `/race/3` | Lights-out sequence → coding workspace → session report |
-| `/results` | Final board: position, total and per-session points, best lap, standings |
-| `/standings` | Live drivers' standings (good for the projector) |
+| `/login` | Login for drivers and Race Control |
+| `/admin` | Race Control (admin only) |
+| `/admin/podium` | Podium ceremony: reveal P3, P2, P1 with team-livery drivers; P4+ below (admin only) |
+| `/` | Driver's Paddock (session cards) |
+| `/race/1`, `/race/2`, `/race/3` | Synchronised lights → coding workspace → session report |
+| `/results` | A driver's own report: points, time, laps (no positions; the ranking stays secret) |
+| `/standings` | Full live standings (admin only, for the projector) |

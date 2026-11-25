@@ -1,0 +1,71 @@
+{
+  "id": "q2-tyre-stint",
+  "order": 2,
+  "title": "Tyre Stint",
+  "difficulty": "Medium",
+  "statement": "Tyres wear out, so every lap on the same set of tyres is a little slower than the one before.\n\nOn a new set the first lap takes `first` milliseconds, and each next lap takes `slower` milliseconds more. The team changes tyres as soon as the **next** lap would take longer than `limit` milliseconds (a lap of exactly `limit` is still allowed).\n\nHow many laps does this set of tyres do, and how long do all those laps take together?",
+  "input_format": "One line with three integers: `first slower limit`.",
+  "output_format": "Line 1: `LAPS k`.\nLine 2: `TIME M:SS.mmm`, the total of those laps (minutes may be more than 59).",
+  "constraints": [
+    "60000 ≤ first ≤ 120000",
+    "1 ≤ slower ≤ 5000",
+    "60000 ≤ limit ≤ 130000"
+  ],
+  "examples": [
+    {
+      "input": "90000 500 91200\n",
+      "explanation": "Laps take 90000, 90500, 91000. The next would be 91500 > 91200, so 3 laps: 271500 ms = 4:31.500.",
+      "output": "LAPS 3\nTIME 4:31.500\n"
+    },
+    {
+      "input": "95000 100 94000\n",
+      "explanation": "Even the first lap is slower than the limit: 0 laps, total 0:00.000.",
+      "output": "LAPS 0\nTIME 0:00.000\n"
+    }
+  ],
+  "tests": [
+    {
+      "input": "90000 500 91200\n",
+      "output": "LAPS 3\nTIME 4:31.500\n"
+    },
+    {
+      "input": "95000 100 94000\n",
+      "output": "LAPS 0\nTIME 0:00.000\n"
+    },
+    {
+      "input": "90000 1000 90000\n",
+      "output": "LAPS 1\nTIME 1:30.000\n"
+    },
+    {
+      "input": "90000 1000 92000\n",
+      "output": "LAPS 3\nTIME 4:33.000\n"
+    },
+    {
+      "input": "80000 1 80050\n",
+      "output": "LAPS 51\nTIME 68:01.275\n"
+    },
+    {
+      "input": "75000 250 82000\n",
+      "output": "LAPS 29\nTIME 37:56.500\n"
+    },
+    {
+      "input": "100000 5000 130000\n",
+      "output": "LAPS 7\nTIME 13:25.000\n"
+    },
+    {
+      "input": "60000 37 70000\n",
+      "output": "LAPS 271\nTIME 293:33.645\n"
+    },
+    {
+      "input": "88000 120 95000\n",
+      "output": "LAPS 59\nTIME 89:57.320\n"
+    },
+    {
+      "input": "119999 2 120000\n",
+      "output": "LAPS 1\nTIME 1:59.999\n"
+    }
+  ],
+  "starter_code": "first, slower, limit = map(int, input().split())\n\n# your code here\n",
+  "notes": "A `while` loop (week 6) is the natural fit: keep going while the next lap is still allowed. Padding with zeros: `f\"{x:02d}\"` turns 5 into `05`, and `f\"{x:03d}\"` turns 7 into `007`.",
+  "time_limit": 2
+}

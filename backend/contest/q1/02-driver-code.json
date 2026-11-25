@@ -1,0 +1,68 @@
+{
+  "id": "q1-driver-code",
+  "order": 2,
+  "title": "Driver Code",
+  "difficulty": "Easy",
+  "statement": "On the timing screen every driver is shown by a short label: the **first three letters of their last name** in CAPITAL letters, then a space, a `#` and their car number.\n\nFor example, `Kimi Antonelli` with car number 12 is shown as `ANT #12`.\n\nThe name may be typed in any mix of small and capital letters, and there may be extra spaces between or around the words. The last word is always the last name.",
+  "input_format": "Line 1: the driver's full name (two or more words).\nLine 2: the car number (an integer).",
+  "output_format": "One line: `CODE #NUMBER`.",
+  "constraints": [
+    "The last name has at least 3 letters",
+    "1 ≤ car number ≤ 99"
+  ],
+  "examples": [
+    {
+      "input": "Kimi Antonelli\n12\n",
+      "output": "ANT #12\n"
+    },
+    {
+      "input": "  charles   marc   LECLERC \n16\n",
+      "explanation": "Extra spaces do not matter. The last word is LECLERC, so the code is LEC.",
+      "output": "LEC #16\n"
+    }
+  ],
+  "tests": [
+    {
+      "input": "Kimi Antonelli\n12\n",
+      "output": "ANT #12\n"
+    },
+    {
+      "input": "  charles   marc   LECLERC \n16\n",
+      "output": "LEC #16\n"
+    },
+    {
+      "input": "lando norris\n4\n",
+      "output": "NOR #4\n"
+    },
+    {
+      "input": "Max Verstappen\n1\n",
+      "output": "VER #1\n"
+    },
+    {
+      "input": "lewis HAMILTON\n44\n",
+      "output": "HAM #44\n"
+    },
+    {
+      "input": "Oscar Piastri\n81\n",
+      "output": "PIA #81\n"
+    },
+    {
+      "input": "Fernando Alonso Diaz\n14\n",
+      "output": "DIA #14\n"
+    },
+    {
+      "input": "a b Cee\n7\n",
+      "output": "CEE #7\n"
+    },
+    {
+      "input": "   Timur   Begmatov\n99\n",
+      "output": "BEG #99\n"
+    },
+    {
+      "input": "aziz KARIMOV\n10\n",
+      "output": "KAR #10\n"
+    }
+  ],
+  "starter_code": "name = input()\nnumber = int(input())\n\n# your code here\n",
+  "time_limit": 2
+}

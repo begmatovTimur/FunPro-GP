@@ -1,0 +1,69 @@
+{
+  "id": "q2-drs-train",
+  "order": 3,
+  "title": "DRS Train",
+  "difficulty": "Medium",
+  "statement": "Cars drive in a long line around the track. For each car (except the leader) you know its **gap** to the car directly in front, in milliseconds.\n\nA car is **close** if its gap is 1000 ms or less. A **train** is a group of cars where every car after the first one is close to the car in front of it, like `A ← B ← C`. The size of a train counts all its cars, including the car at the front of it.\n\nPrint the size of the biggest train. If no car is close to the car in front, print `no train`.",
+  "input_format": "Line 1: `n`, the number of cars.\nLine 2: `n - 1` integers: the gap of car 2 to car 1, car 3 to car 2, and so on.",
+  "output_format": "One line: the size of the biggest train, or `no train`.",
+  "constraints": [
+    "2 ≤ n ≤ 30",
+    "1 ≤ gap ≤ 60000"
+  ],
+  "examples": [
+    {
+      "input": "7\n800 950 3000 600 400 700\n",
+      "explanation": "Cars 1-2-3 form a train of 3 (gaps 800 and 950). Gap 3000 breaks it. Cars 4-5-6-7 form a train of 4 (gaps 600, 400, 700). The biggest is 4.",
+      "output": "4\n"
+    },
+    {
+      "input": "3\n1500 2000\n",
+      "output": "no train\n"
+    }
+  ],
+  "tests": [
+    {
+      "input": "7\n800 950 3000 600 400 700\n",
+      "output": "4\n"
+    },
+    {
+      "input": "3\n1500 2000\n",
+      "output": "no train\n"
+    },
+    {
+      "input": "2\n1000\n",
+      "output": "2\n"
+    },
+    {
+      "input": "2\n1001\n",
+      "output": "no train\n"
+    },
+    {
+      "input": "5\n100 100 100 100\n",
+      "output": "5\n"
+    },
+    {
+      "input": "6\n999 5000 999 5000 999\n",
+      "output": "2\n"
+    },
+    {
+      "input": "10\n1319 2052 1107 2170 848 990 954 768 1368\n",
+      "output": "5\n"
+    },
+    {
+      "input": "20\n1784 1169 1727 740 927 784 2143 1069 665 2425 1018 625 654 570 904 352 2129 407 2301\n",
+      "output": "6\n"
+    },
+    {
+      "input": "30\n1496 794 1170 1315 1327 1504 650 794 517 1195 1129 690 1281 1373 772 577 1480 1013 914 1273 509 688 1093 1461 979 1468 1577 1011 1385\n",
+      "output": "4\n"
+    },
+    {
+      "input": "30\n1014 928 949 1021 1057 1076 1004 1090 1052 1073 1025 918 1076 960 900 970 981 990 1045 919 965 992 914 909 975 920 1064 1015 1009\n",
+      "output": "8\n"
+    }
+  ],
+  "starter_code": "n = int(input())\ngaps = list(map(int, input().split()))\n\n# your code here\n",
+  "notes": "Walk through the gaps once, counting how many close gaps you have seen in a row.",
+  "time_limit": 2
+}

@@ -1,0 +1,68 @@
+{
+  "id": "q1-podium",
+  "order": 4,
+  "title": "Podium",
+  "difficulty": "Easy",
+  "statement": "The race is over. You get the drivers' names and the time each of them needed to finish the race, in the same order. The **smaller** the time, the better.\n\nThe three fastest drivers stand on the podium: `P1` is the winner (smallest time), then `P2`, then `P3`.\n\nIf fewer than three drivers took part, print `not enough drivers` instead.",
+  "input_format": "Line 1: driver names separated by spaces.\nLine 2: the same number of integers: each driver's race time in seconds, in the same order. All times are different.",
+  "output_format": "Three lines: `P1 name`, `P2 name`, `P3 name`. Or the single line `not enough drivers`.",
+  "constraints": [
+    "1 ≤ number of drivers ≤ 20",
+    "All times are different"
+  ],
+  "examples": [
+    {
+      "input": "Aziz Malika Bekzod Dilnoza\n5420 5398 5511 5402\n",
+      "explanation": "Malika (5398) is fastest, then Dilnoza (5402), then Aziz (5420).",
+      "output": "P1 Malika\nP2 Dilnoza\nP3 Aziz\n"
+    },
+    {
+      "input": "Timur Kamila\n5000 5001\n",
+      "output": "not enough drivers\n"
+    }
+  ],
+  "tests": [
+    {
+      "input": "Aziz Malika Bekzod Dilnoza\n5420 5398 5511 5402\n",
+      "output": "P1 Malika\nP2 Dilnoza\nP3 Aziz\n"
+    },
+    {
+      "input": "Timur Kamila\n5000 5001\n",
+      "output": "not enough drivers\n"
+    },
+    {
+      "input": "Solo\n6000\n",
+      "output": "not enough drivers\n"
+    },
+    {
+      "input": "A B C\n3 2 1\n",
+      "output": "P1 C\nP2 B\nP3 A\n"
+    },
+    {
+      "input": "A B C\n1 2 3\n",
+      "output": "P1 A\nP2 B\nP3 C\n"
+    },
+    {
+      "input": "Madina Laylo Aziz Zarina Shahzoda\n5579 5560 5782 5352 5759\n",
+      "output": "P1 Zarina\nP2 Laylo\nP3 Madina\n"
+    },
+    {
+      "input": "Laylo Madina Nodira Sevara Bekzod Timur Shahzoda Dilnoza\n5795 5789 5658 5608 5350 5668 5758 5769\n",
+      "output": "P1 Bekzod\nP2 Sevara\nP3 Nodira\n"
+    },
+    {
+      "input": "Gulnora Sevara Madina Aziz Islom Jasur Shahzoda Dilnoza Sardor Nodira Laylo Otabek\n5709 5311 5704 5348 5465 5334 5352 5533 5658 5326 5708 5335\n",
+      "output": "P1 Sevara\nP2 Nodira\nP3 Jasur\n"
+    },
+    {
+      "input": "Rustam Dilnoza Akmal Zarina Aziz Sardor Islom Madina Sevara Timur Jasur Bekzod Malika Gulnora Kamila Laylo\n5788 5750 5776 5494 5718 5611 5716 5498 5416 5653 5345 5456 5346 5419 5429 5684\n",
+      "output": "P1 Jasur\nP2 Malika\nP3 Sevara\n"
+    },
+    {
+      "input": "Bekzod Rustam Otabek Zarina Bobur Sevara Malika Laylo Akmal Kamila Timur Aziz Jasur Gulnora Dilnoza Madina Nodira Sardor Islom Shahzoda\n5363 5356 5512 5792 5397 5360 5478 5511 5355 5413 5352 5476 5455 5362 5499 5328 5545 5640 5309 5442\n",
+      "output": "P1 Islom\nP2 Madina\nP3 Timur\n"
+    }
+  ],
+  "starter_code": "names = input().split()\ntimes = list(map(int, input().split()))\n\n# your code here\n",
+  "time_limit": 2
+}

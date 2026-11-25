@@ -1,0 +1,65 @@
+{
+  "id": "q2-places-gained",
+  "order": 4,
+  "title": "Places Gained",
+  "difficulty": "Medium",
+  "statement": "You get the order the cars **started** the race in, and the order they **finished** in (first place first in both lines).\n\nGoing through the finishing order, print for every driver how their position changed:\n\n- `CODE +k` if they finished `k` places higher than they started,\n- `CODE -k` if they finished `k` places lower,\n- `CODE =` if they finished where they started.\n\nThen print `MOVER` and the driver who gained the most places. If several gained the same biggest number, choose the one who finished higher. If nobody gained any place, print `MOVER none`.",
+  "input_format": "Line 1: driver codes in starting order.\nLine 2: the same codes in finishing order.",
+  "output_format": "One line per driver in finishing order, then the `MOVER` line.",
+  "constraints": [
+    "1 ≤ number of drivers ≤ 24",
+    "All codes are different"
+  ],
+  "examples": [
+    {
+      "input": "VER NOR LEC HAM\nNOR LEC VER HAM\n",
+      "explanation": "NOR started 2nd and finished 1st: +1. LEC: 3rd to 2nd, +1. VER: 1st to 3rd, -2. HAM stayed 4th. NOR and LEC both gained 1; NOR finished higher, so NOR is the mover.",
+      "output": "NOR +1\nLEC +1\nVER -2\nHAM =\nMOVER NOR\n"
+    }
+  ],
+  "tests": [
+    {
+      "input": "VER NOR LEC HAM\nNOR LEC VER HAM\n",
+      "output": "NOR +1\nLEC +1\nVER -2\nHAM =\nMOVER NOR\n"
+    },
+    {
+      "input": "VER\nVER\n",
+      "output": "VER =\nMOVER none\n"
+    },
+    {
+      "input": "A B C\nA B C\n",
+      "output": "A =\nB =\nC =\nMOVER none\n"
+    },
+    {
+      "input": "A B C\nC B A\n",
+      "output": "C +2\nB =\nA -2\nMOVER C\n"
+    },
+    {
+      "input": "A B C D E\nB C D E A\n",
+      "output": "B +1\nC +1\nD +1\nE +1\nA -4\nMOVER B\n"
+    },
+    {
+      "input": "LIN SAI BOT HAM DOO OCO VER STR\nSAI HAM BOT LIN STR OCO VER DOO\n",
+      "output": "SAI +1\nHAM +2\nBOT =\nLIN -3\nSTR +3\nOCO =\nVER =\nDOO -3\nMOVER STR\n"
+    },
+    {
+      "input": "HAM LIN BOR TSU ALO HUL DOO OCO SAI GAS PIA PER\nLIN PER BOR TSU ALO HAM SAI OCO DOO HUL PIA GAS\n",
+      "output": "LIN +1\nPER +10\nBOR =\nTSU =\nALO =\nHAM -5\nSAI +2\nOCO =\nDOO -2\nHUL -4\nPIA =\nGAS -2\nMOVER PER\n"
+    },
+    {
+      "input": "ALB SAI BOT ANT HAM LEC PER NOR GAS ALO LAW TSU HUL BOR STR OCO VER LIN RUS DOO\nRUS SAI LIN ANT ALO LAW STR NOR BOT HUL LEC TSU OCO BOR PER GAS VER HAM ALB DOO\n",
+      "output": "RUS +18\nSAI =\nLIN +15\nANT =\nALO +5\nLAW +5\nSTR +8\nNOR =\nBOT -6\nHUL +3\nLEC -5\nTSU =\nOCO +3\nBOR =\nPER -8\nGAS -7\nVER =\nHAM -13\nALB -18\nDOO =\nMOVER RUS\n"
+    },
+    {
+      "input": "ANT PER HUL SAI OCO VER HAM BOT LIN ALB BOR PIA NOR LAW LEC GAS TSU ALO DOO COL RUS STR HAD BEA\nBOT NOR LAW COL ALO VER LIN BEA STR HUL PER PIA ALB GAS TSU ANT BOR OCO DOO SAI LEC HAM HAD RUS\n",
+      "output": "BOT +7\nNOR +11\nLAW +11\nCOL +16\nALO +13\nVER =\nLIN +2\nBEA +16\nSTR +13\nHUL -7\nPER -9\nPIA =\nALB -3\nGAS +2\nTSU +2\nANT -15\nBOR -6\nOCO -13\nDOO =\nSAI -16\nLEC -6\nHAM -15\nHAD =\nRUS -3\nMOVER COL\n"
+    },
+    {
+      "input": "ALB ALO VER BOT BEA NOR PIA TSU STR HAM HUL DOO LEC ANT PER HAD LIN RUS BOR GAS SAI LAW OCO COL\nALB ALO VER BOT BEA NOR PIA TSU STR HAM HUL DOO LEC ANT PER HAD LIN RUS BOR GAS SAI LAW OCO COL\n",
+      "output": "ALB =\nALO =\nVER =\nBOT =\nBEA =\nNOR =\nPIA =\nTSU =\nSTR =\nHAM =\nHUL =\nDOO =\nLEC =\nANT =\nPER =\nHAD =\nLIN =\nRUS =\nBOR =\nGAS =\nSAI =\nLAW =\nOCO =\nCOL =\nMOVER none\n"
+    }
+  ],
+  "starter_code": "start = input().split()\nfinish = input().split()\n\n# your code here\n",
+  "notes": "A driver's place is their index + 1. Places gained = start place − finish place.",
+  "time_limit": 2
+}

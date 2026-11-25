@@ -1,0 +1,76 @@
+{
+  "id": "q1-fuel-check",
+  "order": 3,
+  "title": "Fuel Check",
+  "difficulty": "Easy",
+  "statement": "Before the race the team checks if the car has enough fuel.\n\nThe race has `laps` laps and the car burns `per_lap` kilograms of fuel on every lap, so it needs `laps × per_lap` kg to finish. The rules also say that **at least 1 kg must still be in the tank at the finish** (for a fuel sample).\n\n- If the loaded fuel covers the race **and** the extra 1 kg, print `OK` and the fuel left at the finish.\n- If it covers the race but leaves less than 1 kg, print `RISKY` and the fuel left at the finish.\n- If it does not even cover the race, print `BOX` and how much fuel is missing.\n\nPrint the number with exactly two decimals.",
+  "input_format": "Line 1: `laps` (integer).\nLine 2: `per_lap`, fuel used per lap in kg (a decimal number).\nLine 3: `loaded`, fuel in the tank in kg (a decimal number).",
+  "output_format": "One line: `OK x`, `RISKY x` or `BOX x`, with x printed with two decimals.",
+  "constraints": [
+    "1 ≤ laps ≤ 80",
+    "0 < per_lap ≤ 3",
+    "0 ≤ loaded ≤ 150"
+  ],
+  "examples": [
+    {
+      "input": "50\n1.75\n90.5\n",
+      "explanation": "Needed: 50 × 1.75 = 87.5 kg. 90.5 kg covers that plus 1 kg, and 3.00 kg are left.",
+      "output": "OK 3.00\n"
+    },
+    {
+      "input": "50\n1.75\n88\n",
+      "explanation": "88 kg covers the 87.5 kg race, but only 0.50 kg is left: less than 1 kg.",
+      "output": "RISKY 0.50\n"
+    },
+    {
+      "input": "50\n1.75\n85.25\n",
+      "explanation": "85.25 kg is 2.25 kg short of 87.5 kg.",
+      "output": "BOX 2.25\n"
+    }
+  ],
+  "tests": [
+    {
+      "input": "50\n1.75\n90.5\n",
+      "output": "OK 3.00\n"
+    },
+    {
+      "input": "50\n1.75\n88\n",
+      "output": "RISKY 0.50\n"
+    },
+    {
+      "input": "50\n1.75\n85.25\n",
+      "output": "BOX 2.25\n"
+    },
+    {
+      "input": "40\n2.5\n101\n",
+      "output": "OK 1.00\n"
+    },
+    {
+      "input": "40\n2.5\n100\n",
+      "output": "RISKY 0.00\n"
+    },
+    {
+      "input": "10\n1.25\n0\n",
+      "output": "BOX 12.50\n"
+    },
+    {
+      "input": "78\n1.5\n117.75\n",
+      "output": "RISKY 0.75\n"
+    },
+    {
+      "input": "57\n1.75\n100\n",
+      "output": "RISKY 0.25\n"
+    },
+    {
+      "input": "1\n0.5\n1.5\n",
+      "output": "OK 1.00\n"
+    },
+    {
+      "input": "66\n2.25\n148.5\n",
+      "output": "RISKY 0.00\n"
+    }
+  ],
+  "starter_code": "laps = int(input())\nper_lap = float(input())\nloaded = float(input())\n\n# your code here\n",
+  "notes": "`f\"{x:.2f}\"` prints a number with exactly two decimals. Exactly 1 kg left is still `OK`; exactly 0 kg left is `RISKY`.",
+  "time_limit": 2
+}

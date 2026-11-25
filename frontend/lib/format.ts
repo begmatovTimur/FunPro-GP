@@ -8,6 +8,16 @@ export function lapTime(sec: number | null | undefined): string {
   return `${m}:${String(s).padStart(2, "0")}.${String(r).padStart(3, "0")}`;
 }
 
+/** Total solving time: 5103 -> "1:25:03" (h:mm:ss). 0 -> "—". */
+export function duration(sec: number | null | undefined): string {
+  if (!sec) return "—";
+  const t = Math.round(sec);
+  const h = Math.floor(t / 3600);
+  const m = Math.floor((t % 3600) / 60);
+  const s = t % 60;
+  return `${h}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+}
+
 /** 1499 -> "24:59" (countdown) */
 export function clock(sec: number): string {
   const t = Math.max(0, Math.ceil(sec));
@@ -32,7 +42,7 @@ export const VERDICT_LABEL: Record<string, string> = {
 };
 
 export const COLOR_LABEL: Record<string, string> = {
-  purple: "Purple — fastest lap of all drivers",
+  purple: "Purple — fastest lap of the session",
   green: "Green — your personal best",
   yellow: "Yellow — slower than your best",
 };

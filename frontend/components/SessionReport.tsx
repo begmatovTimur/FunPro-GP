@@ -1,31 +1,39 @@
 "use client";
 
 import Link from "next/link";
-import { lapTime, pts } from "@/lib/format";
+import { duration, lapTime, pts } from "@/lib/format";
 import type { Board } from "@/lib/types";
 
-export default function SessionReport({ board }: { board: Board }) {
+export default function SessionReport({ board, waitingForFlag }: { board: Board; waitingForFlag?: boolean }) {
   const s = board.session;
   const next = s.n < 3 ? s.n + 1 : null;
   return (
     <div style={{ flex: 1, overflowY: "auto" }}>
       <div className="chequered flag-band" />
       <main className="container" style={{ maxWidth: 920 }}>
-        <div className="eyebrow" style={{ color: "var(--red)" }}>Chequered flag</div>
+        <div className="eyebrow" style={{ color: "var(--red)" }}>{waitingForFlag ? "All laps complete" : "Chequered flag"}</div>
         <h1 className="h-display" style={{ margin: "8px 0 24px" }}>
           {s.name} <span className="accent">complete</span>
         </h1>
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: 12, marginBottom: 16 }}>
+        {waitingForFlag && (
+          <div className="card" style={{ padding: 16, marginBottom: 16 }}>
+            You solved every problem. The session is still running for the others, and your colours can still
+            change if someone sets a faster lap.
+          </div>
+        )}
+
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: 12, marginBottom: 16 }}>
           {[
-            ["Points", `${pts(s.points)} / ${s.max_points}`],
-            ["Solved", `${s.solved} / ${s.problems_count}`],
+            ["Points", `${pts((s.points ?? 0) + (s.bonus ?? 0))} / ${s.max_points + s.fastest_lap_bonus}`],
+            ["Solved", `${s.solved ?? 0} / ${s.problems_count}`],
+            ["Time", duration(s.time)],
             ["Best lap", lapTime(s.best_lap)],
-            ["Purple laps", String(s.colors.purple)],
+            ["Fastest lap", s.bonus ? `Yours! +${s.bonus}` : s.fastest_lap ? `${s.fastest_lap.code} ${lapTime(s.fastest_lap.lap)}` : "—"],
           ].map(([k, v]) => (
-            <div key={k} className="card" style={{ padding: 18 }}>
-              <div className="eyebrow">{k}</div>
-              <div style={{ fontSize: 30, fontWeight: 900 }}>{v}</div>
+            <div key={k} className="card" style={{ padding: 18, ...(k === "Fastest lap" && s.bonus ? { background: "var(--purple)" } : {}) }}>
+              <div className="eyebrow" style={k === "Fastest lap" && s.bonus ? { color: "#fff" } : {}}>{k}</div>
+              <div style={{ fontSize: 26, fontWeight: 900 }}>{v}</div>
             </div>
           ))}
         </div>
@@ -57,11 +65,13 @@ export default function SessionReport({ board }: { board: Board }) {
           </table>
         </div>
 
-        <div style={{ display: "flex", gap: 12, marginTop: 24, flexWrap: "wrap" }}>
+        <div style={{ display: "flex", gap: 12, marginTop: 24, flexWrap: "wrap", alignItems: "center" }}>
           {next ? (
-            <Link href={`/race/${next}`} className="btn btn-red btn-lg">Go to Q{next} →</Link>
+            <span className="status-pill live" style={{ fontSize: 14, padding: "10px 16px" }}>
+              Stay here: Race Control will start Q{next}
+            </span>
           ) : (
-            <Link href="/results" className="btn btn-red btn-lg">Final results →</Link>
+            !waitingForFlag && <Link href="/results" className="btn btn-red btn-lg">Final results →</Link>
           )}
           <Link href="/" className="btn btn-ghost btn-lg">Paddock</Link>
         </div>

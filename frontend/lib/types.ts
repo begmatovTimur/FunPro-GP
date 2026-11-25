@@ -1,5 +1,5 @@
 export type LapColor = "purple" | "green" | "yellow" | null;
-export type SessionStatus = "locked" | "ready" | "running" | "finished";
+export type RaceState = "pending" | "lights" | "running" | "finished";
 
 export interface Driver {
   id: number;
@@ -7,8 +7,36 @@ export interface Driver {
   code: string;
   number: number;
   color: string;
+  team: string;
+  team_name: string;
 }
 
+export interface Me {
+  role: "admin" | "driver";
+  driver: Driver | null;
+  admin_name?: string;
+}
+
+export type LoginResponse =
+  | (Me & { token: string; created: boolean; needs_registration?: undefined })
+  | { needs_registration: true; name: string; suggested_code: string; taken_codes: string[] };
+
+export interface FastestLap {
+  lap: number;
+  problem_id: string;
+  driver_id: number;
+  code: string;
+  name: string;
+  color: string;
+}
+
+export interface MaxPoints {
+  problems: number;
+  bonus: number;
+  total: number;
+}
+
+/** Global session info (same for everyone) + this driver's numbers when asked as a driver. */
 export interface SessionSummary {
   n: number;
   name: string;
@@ -17,14 +45,20 @@ export interface SessionSummary {
   points_per_problem: number;
   problems_count: number;
   max_points: number;
-  status: SessionStatus;
-  started_at: number | null;
-  deadline: number | null;
-  ended_at: number | null;
-  points: number;
-  solved: number;
-  best_lap: number | null;
-  colors: { purple: number; green: number; yellow: number };
+  fastest_lap_bonus: number;
+  state: RaceState;
+  lights_start: number | null;
+  lights_out: number | null;
+  end_at: number | null;
+  fastest_lap: FastestLap | null;
+  // driver-only
+  status?: RaceState;
+  points?: number;
+  bonus?: number;
+  solved?: number;
+  best_lap?: number | null;
+  time?: number;
+  colors?: { purple: number; green: number; yellow: number };
 }
 
 export interface DriverState {
@@ -32,6 +66,7 @@ export interface DriverState {
   server_now: number;
   sessions: SessionSummary[];
   all_finished: boolean;
+  max_points: MaxPoints;
 }
 
 export interface Example {
@@ -113,30 +148,61 @@ export interface SubmitResponse {
   progress: Progress;
 }
 
+export interface StandingSession {
+  points: number;
+  bonus: number;
+  solved: number;
+  best_lap: number | null;
+  fastest_lap: boolean;
+  state: RaceState;
+  time: number;
+}
+
 export interface StandingRow {
   pos: number;
   driver: Driver;
-  sessions: Record<string, { points: number; solved: number; best_lap: number | null; status: string }>;
+  sessions: Record<string, StandingSession>;
+  problem_points: number;
+  bonus: number;
   total: number;
   solved: number;
   best_lap: number | null;
   total_lap_time: number;
-  purple: number;
+  time: number;
+  fastest_laps: number;
   gap: number;
 }
 
 export interface Standings {
   server_now: number;
   rows: StandingRow[];
-  max_points: number;
+  max_points: MaxPoints;
+  fastest_laps: Record<string, FastestLap | null>;
+  states: Record<string, RaceState>;
 }
 
 export interface ResultsResponse {
   driver: Driver;
-  standing: StandingRow;
-  field_size: number;
-  max_points: number;
+  standing: Omit<StandingRow, "pos" | "gap">;
+  max_points: MaxPoints;
   sessions: (SessionSummary & {
     problems: ({ id: string; order: number; title: string } & Progress)[];
   })[];
+}
+
+export interface AdminProblemStat {
+  id: string;
+  order: number;
+  title: string;
+  attempted: number;
+  solved: number;
+  best_lap: number | null;
+  best_code: string | null;
+}
+
+export interface AdminOverview {
+  server_now: number;
+  drivers: number;
+  sessions: (SessionSummary & { joined: number; problems: AdminProblemStat[] })[];
+  standings: Standings;
 }

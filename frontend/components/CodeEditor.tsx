@@ -47,7 +47,8 @@ export default function CodeEditor({
       readOnly={readOnly}
       height="100%"
       style={{ height: "100%" }}
-      basicSetup={{ tabSize: 4, foldGutter: false }}
+      // No suggestion pop-ups: students write every name themselves.
+      basicSetup={{ tabSize: 4, foldGutter: false, autocompletion: false, completionKeymap: false }}
     />
   );
 }
