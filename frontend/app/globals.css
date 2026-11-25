@@ -377,3 +377,22 @@ table.standings td .team-logo { margin-right: 10px; }
 .podium-block { width: 100%; display: grid; place-items: center; border-radius: 0; box-shadow: inset 0 6px 0 rgba(255,255,255,.35), inset 0 -10px 30px rgba(0,0,0,.25); }
 .podium-block span { font-size: 86px; font-weight: 900; font-style: italic; color: rgba(21,21,30,.85); text-shadow: 0 2px 0 rgba(255,255,255,.35); }
 @media (max-width: 760px) { .podium-row { grid-template-columns: 1fr; } .podium-col.p1 { order: -1; } }
+
+/* race bar on smaller lab screens (1280-1440 px wide) */
+.race-bar { flex-wrap: nowrap; }
+.laps { flex-wrap: nowrap; }
+.race-clock { display: flex; align-items: flex-end; gap: 14px; flex-shrink: 0; white-space: nowrap; }
+.race-bar .btn, .fl-chip, .driver-chip { flex-shrink: 0; white-space: nowrap; }
+@media (max-width: 1440px) {
+  .race-bar { gap: 10px; padding: 8px 10px; }
+  .race-bar .brand span:last-child { display: none; }
+  .lap { width: 38px; }
+  .q-tab { width: 50px; }
+  .wide-only { display: none; }
+  .race-bar .driver-chip > span:last-child { display: none; }
+}
+@media (max-width: 1300px) {
+  .fl-chip .k { display: none; }
+  .race-clock .v { font-size: 24px; }
+  .race-points { padding-right: 10px; }
+}

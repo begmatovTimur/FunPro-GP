@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import TeamLogo from "@/components/TeamLogo";
 import TeamSelect from "@/components/TeamSelect";
-import { api, getToken, setToken } from "@/lib/api";
+import { api, ApiError, getToken, setToken } from "@/lib/api";
 import { TEAMS } from "@/lib/teams";
 
 type Registration = { name: string; suggested: string; taken: string[] };
@@ -26,7 +26,8 @@ export default function LoginPage() {
     if (!getToken()) return;
     api.me().then(
       (m) => router.replace(m.role === "admin" ? "/admin" : "/"),
-      () => setToken(null),
+      // Forget the login only if the server says it's invalid, not on a network hiccup.
+      (e) => { if (e instanceof ApiError && e.status === 401) setToken(null); },
     );
   }, [router]);
 

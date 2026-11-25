@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { api, getToken, setToken } from "./api";
+import { api, ApiError, getToken, setToken } from "./api";
 import type { Me } from "./types";
 
 /**
@@ -16,23 +16,30 @@ export function useAuth(need: "driver" | "admin" | "any") {
 
   useEffect(() => {
     let alive = true;
+    let retry: ReturnType<typeof setTimeout> | undefined;
     if (!getToken()) {
       if (need !== "any") router.replace("/login");
       return;
     }
-    api.me().then(
-      (m) => {
-        if (!alive) return;
-        if (need === "driver" && m.role === "admin") return router.replace("/admin");
-        if (need === "admin" && m.role !== "admin") return router.replace("/");
-        setMe(m);
-      },
-      () => {
-        if (alive && need !== "any") router.replace("/login");
-      },
-    );
+    const check = () =>
+      api.me().then(
+        (m) => {
+          if (!alive) return;
+          if (need === "driver" && m.role === "admin") return router.replace("/admin");
+          if (need === "admin" && m.role !== "admin") return router.replace("/");
+          setMe(m);
+        },
+        (e) => {
+          if (!alive) return;
+          // Server unreachable for a moment (restart, Wi-Fi blip): keep the login and try again.
+          if (e instanceof ApiError && e.status === 0) retry = setTimeout(check, 2000);
+          else if (need !== "any") router.replace("/login"); // 401 is handled in api.ts
+        },
+      );
+    check();
     return () => {
       alive = false;
+      clearTimeout(retry);
     };
   }, [need, router]);
 

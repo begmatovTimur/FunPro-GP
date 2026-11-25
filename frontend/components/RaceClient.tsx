@@ -201,13 +201,15 @@ function Workspace({
     if (left <= -1) finish(); // 1 s after the flag, let the server confirm
   }, [left, finish]);
 
-  // ---- tell the server which problem is open (lap timing)
-  const firstFocus = useRef(true);
+  // ---- tell the server which problem is open (lap timing).
+  // Only when the student switches problem: the live refresh every 3 s must not re-send it,
+  // or a second tab with the same account would move the lap timer back and forth.
+  const lastSent = useRef(board.current_problem_id);
   useEffect(() => {
-    if (firstFocus.current && currentId === board.current_problem_id) { firstFocus.current = false; return; }
-    firstFocus.current = false;
+    if (currentId === lastSent.current) return;
+    lastSent.current = currentId;
     api.focus(n, currentId).catch(() => {});
-  }, [currentId, n, board.current_problem_id]);
+  }, [currentId, n]);
 
   // ---- console state
   const [tab, setTab] = useState<"cases" | "result">("cases");
@@ -348,8 +350,8 @@ function Workspace({
             <div className="v">{clock(left)}</div>
           </div>
         </div>
-        <button className="btn btn-sm" onClick={() => goTo(problems[(idx + 1) % problems.length].id)}>
-          Next problem →
+        <button className="btn btn-sm next-btn" onClick={() => goTo(problems[(idx + 1) % problems.length].id)}>
+          Next<span className="wide-only"> problem</span> →
         </button>
         <DriverChip driver={driver} />
       </div>
